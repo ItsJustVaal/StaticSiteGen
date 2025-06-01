@@ -1,6 +1,13 @@
 from textnode import *
 import re
 
+def extract_markdown_images(text):
+    return list(re.findall(r"!\[(.*?)\]\((.*?)\)", text))
+
+def extract_markdown_links(text: str):
+    return list(re.findall(r"\[(.*?)\]\((.*?)\)", text))
+
+
 def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: TextType) -> list[TextNode]:
     new_nodes = []
 
@@ -20,12 +27,6 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 
     return new_nodes
                 
-def extract_markdown_images(text):
-    return list(re.findall(r"!\[(.*?)\]\((.*?)\)", text))
-
-def extract_markdown_links(text: str):
-    return list(re.findall(r"\[(.*?)\]\((.*?)\)", text))
-
 def split_node_images(old_nodes: list[TextNode]):
     new_nodes = []
     
