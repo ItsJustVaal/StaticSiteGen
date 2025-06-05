@@ -9,6 +9,8 @@ class HTMLNode:
         raise NotImplementedError
     
     def props_to_html(self):
+        if self.props is None:
+            return ""
         temp = ''
         for k,v in self.props.items():
             temp += f' {k}="{v}"'
@@ -35,7 +37,7 @@ class LeafNode(HTMLNode):
         if self.tag in {"img", "br", "hr", "input", "meta", "link"}:
             return f"<{self.tag}{props} />"
 
-        return f"<{self.tag}{props}>{self.value}</{self.tag}>"
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
         
         
@@ -49,8 +51,10 @@ class ParentNode(HTMLNode):
             raise ValueError("All ParentNodes must have a tag")
         if self.children is None:
             raise ValueError("All ParentNodes require children")
-        res = f"<{self.tag}>"
+        children_html = ""
         for child in self.children:
-            res += child.to_html()
-        res += f"</{self.tag}>"
-        return res
+            children_html += child.to_html()
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
+    
+    def __repr__(self):
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"

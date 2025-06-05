@@ -1,9 +1,10 @@
-from textnode import TextNode, TextType
+from copystructure import copy_structure
+from generate import generate_pages_recursive
 
 
 def main():
-    node = TextNode("this is some dummy text", TextType.BOLD, URL="WOARO.com")
-    print(node)
+    copy_structure()
+    generate_pages_recursive("content", "template.html", "public") 
     
     
 main()
